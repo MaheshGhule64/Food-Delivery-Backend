@@ -12,7 +12,10 @@ const orderRouter = require("./routes/orderRouter.js");
 //middleware
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://food-delivery-backend-git-main-maheshghule64s-projects.vercel.app",
+  credentials: true
+}));
 
 // DB Connection
 DbConnect();
