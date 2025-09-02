@@ -13,7 +13,9 @@ const orderRouter = require("./routes/orderRouter.js");
 
 app.use(express.json());
 app.use(cors({
-  origin: "https://food-delivery-backend-git-main-maheshghule64s-projects.vercel.app",
+  origin: "https://food-delivery-six-black.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 
