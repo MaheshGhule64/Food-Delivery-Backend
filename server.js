@@ -12,10 +12,23 @@ const orderRouter = require("./routes/orderRouter.js");
 //middleware
 
 app.use(express.json());
+
+const allowedOrigins = [
+   process.env.FRONTEND_URL,
+   process.env.ADMIN_URL
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true
-}));
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // allow non-browser requests
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // if you need cookies/auth headers
+  }));
 
 
 // DB Connection
