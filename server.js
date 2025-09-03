@@ -12,7 +12,14 @@ const orderRouter = require("./routes/orderRouter.js");
 //middleware
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://food-delivery-six-black.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+app.options("*", cors());
 
 // DB Connection
 DbConnect();
