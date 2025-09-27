@@ -8,7 +8,7 @@ const {
 } = require("../controllers/foodController.js");
 
 const storage = multer.diskStorage({
-  destination: "/temp",
+  destination: "uploads",
   filename: (req, file, cb) => {
     return cb(null, `${Date.now()}${file.originalname}`);
   },
