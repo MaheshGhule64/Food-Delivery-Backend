@@ -20,12 +20,11 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: (origin, callback) => {
-      if (!origin) return callback(null, true); // allow non-browser requests
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
-      }
+     if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
     },
     credentials: true, // if you need cookies/auth headers
   }));
