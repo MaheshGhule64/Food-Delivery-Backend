@@ -24,16 +24,14 @@ const addFood = async (req, res) => {
   //   res.json({ success: false, message: "Error" });
   // }
 
-  const storage = new Storage({
-  projectId: "food-delivery-0909",
-  keyFilename: "./config/service.json", // download from Cloud Console
-});
+  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+  const storage = new Storage({credentials});
 
 
    try {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-      const bucket = 'food-delivery-food-images';
-    const blob = storage.bucket.file(Date.now() + "-" + req.file.originalname);
+      const bucket = storage.bucket('food-delivery-food-images');
+    const blob = bucket.file(Date.now() + "-" + req.file.originalname);
 
     const blobStream = blob.createWriteStream({
       resumable: false,
