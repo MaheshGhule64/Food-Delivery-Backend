@@ -33,7 +33,7 @@ const addFood = async (req, res) => {
    try {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
       const bucket = 'food-delivery-food-images';
-    const blob = bucket.file(Date.now() + "-" + req.file.originalname);
+    const blob = storage.bucket.file(Date.now() + "-" + req.file.originalname);
 
     const blobStream = blob.createWriteStream({
       resumable: false,
