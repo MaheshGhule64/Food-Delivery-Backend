@@ -24,8 +24,13 @@ const addFood = async (req, res) => {
   //   res.json({ success: false, message: "Error" });
   // }
 
-  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
-  const storage = new Storage({credentials});
+  // const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+  let projectId = "food-delivery-0909";
+  let keyFilename = "../config/service.json";
+  const storage = new Storage({
+    projectId,
+    keyFilename
+  });
 
 
    try {
