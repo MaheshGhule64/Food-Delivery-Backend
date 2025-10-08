@@ -34,6 +34,7 @@ const addFood = async (req, res) => {
     if (!req.file) return res.status(400).send("No file uploaded.");
 
     const bucketName = 'food-delivery-food-images'; // replace with your bucket
+     const tempDir = path.join("/tmp", "uploads");
   const filePath = path.join(tempDir, req.file.originalname); // path to local file
   fs.writeFileSync(filePath, req.file.buffer);
   const destination = `uploads/${req.file.originalname}`; // path in GCS
