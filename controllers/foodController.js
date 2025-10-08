@@ -24,7 +24,7 @@ const addFood = async (req, res) => {
   //   res.json({ success: false, message: "Error" });
   // }
 
-  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+  const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON.trim());
   const storage = new Storage({credentials});
 
 
