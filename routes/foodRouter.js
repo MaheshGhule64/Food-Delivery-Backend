@@ -7,14 +7,14 @@ const {
   removeFood,
 } = require("../controllers/foodController.js");
 
-// const storage = multer.diskStorage({
-//   destination: "/tmp",
-//   filename: (req, file, cb) => {
-//     return cb(null, `${file.originalname}`);
-//   },
-// });
+const storage = multer.diskStorage({
+  destination: "/tmp",
+  filename: (req, file, cb) => {
+    return cb(null, `${file.originalname}`);
+  },
+});
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: storage });
 
 foodRouter.post("/add", upload.single("image"), addFood);
 foodRouter.get("/list", listFood);
