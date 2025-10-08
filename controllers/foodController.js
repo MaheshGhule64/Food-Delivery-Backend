@@ -1,12 +1,12 @@
 const foodModel = require("../models/foodModel.js");
 const fs = require("fs");
+const path = require("path");
 const {Storage} = require('@google-cloud/storage')
 
 
 // add food item
 const addFood = async (req, res) => {
   // const image_filename = req.file.filename;
-  console.log(req.file.path);
 
   // const food = new foodModel({
   //   name: req.body.name,
@@ -34,7 +34,8 @@ const addFood = async (req, res) => {
     if (!req.file) return res.status(400).send("No file uploaded.");
 
     const bucketName = 'food-delivery-food-images'; // replace with your bucket
-  const filePath = `https://food-delivery-backend-jnud.onrender.com/images/${req.file.originalname}`;   // path to local file
+  const filePath = path.join(tempDir, req.file.originalname); // path to local file
+  fs.writeFileSync(filePath, req.file.buffer);
   const destination = `uploads/${req.file.originalname}`; // path in GCS
 
   try {
