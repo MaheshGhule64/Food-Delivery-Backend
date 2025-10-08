@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const fs = require("fs");
+const path = require("path");
 const port = process.env.PORT;
 const { DbConnect } = require("./config/db.js");
 const foodRouter = require("./routes/foodRouter.js");
@@ -39,17 +40,18 @@ app.use("/api/food", foodRouter);
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/orders", orderRouter);
-app.use("/images", express.static("/tmp/uploads"));
+// app.use("/images", express.static("/tmp/uploads"));
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
+const tempDir = path.join("/tmp", "uploads");
+if (!fs.existsSync(tempDir)) {
+  fs.mkdirSync(tempDir, { recursive: true });
+  console.log("✅ Temp folder created at", tempDir);
+}
+
 app.listen(port, () => {
-    const uploadDir = "/tmp/uploads";
-  if (!fs.existsSync(uploadDir)){ 
-     fs.mkdirSync(uploadDir, { recursive: true });
-     console.log("dir create");
-  }
   console.log(`Server is running on port ${port}`);
 });
