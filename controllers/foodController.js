@@ -31,48 +31,83 @@ const addFood = async (req, res) => {
 
 
    try {
-    if (!req.file) return res.status(400).send("No file uploaded.");
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+      const bucket = 'food-delivery-food-images';
+    const blob = bucket.file(Date.now() + "-" + req.file.originalname);
 
-    const bucketName = 'food-delivery-food-images'; // replace with your bucket
-     const tempDir = path.join("/tmp", "uploads");
-     console.log(tempDir);
-  const filePath = path.join(tempDir, req.file.originalname);
-     console.log(filePath);// path to local file
-  fs.writeFileSync(filePath, req.file.buffer);
-  const destination = `uploads/${req.file.originalname}`; // path in GCS
-
-  try {
-    // Upload file WITHOUT any ACLs (UBLA-safe)
-    await storage.bucket(bucketName).upload(filePath, {
-      destination,
+    const blobStream = blob.createWriteStream({
+      resumable: false,
+      contentType: req.file.mimetype,
+      predefinedAcl: "publicRead", // <-- makes file public
     });
 
-    console.log(`✅ File uploaded to gs://${bucketName}/${destination}`);
-    const image_url = `https://storage.cloud.google.com/${bucketName}/uploads/${req.file.originalname}`;
-    const food = new foodModel({
+    blobStream.on("error", (err) => {
+      console.error(err);
+      res.status(500).json({ error: "Upload error" });
+    });
+
+    blobStream.on("finish", () => {
+      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+       const food = new foodModel({
     name: req.body.name,
     description: req.body.description,
     price: req.body.price,
     category: req.body.category,
-    image: image_url,
+    image: publicUrl,
   }); 
-  
-  try {
-    await food.save();
-    res.json({ success: true, message: "Food Added" });
-  } catch (err) {
-    console.log(err);
-    res.json({ success: false, message: "Error" });
-  } 
+    });
 
-   } catch (error) {
-    console.error('❌ Upload failed:', error.message);
+    // Upload file buffer
+    blobStream.end(req.file.buffer);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
+
+//    try {
+//     if (!req.file) return res.status(400).send("No file uploaded.");
+
+//     const bucketName = 'food-delivery-food-images'; // replace with your bucket
+//      const tempDir = path.join("/tmp", "uploads");
+//      console.log(tempDir);
+//   const filePath = path.join(tempDir, req.file.originalname);
+//      console.log(filePath);// path to local file
+//   fs.writeFileSync(filePath, req.file.buffer);
+//   const destination = `uploads/${req.file.originalname}`; // path in GCS
+
+//   try {
+//     // Upload file WITHOUT any ACLs (UBLA-safe)
+//     await storage.bucket(bucketName).upload(filePath, {
+//       destination,
+//     });
+
+//     console.log(`✅ File uploaded to gs://${bucketName}/${destination}`);
+//     const image_url = `https://storage.cloud.google.com/${bucketName}/uploads/${req.file.originalname}`;
+  //   const food = new foodModel({
+  //   name: req.body.name,
+  //   description: req.body.description,
+  //   price: req.body.price,
+  //   category: req.body.category,
+  //   image: image_url,
+  // }); 
   
-}catch(err){
-  console.log(err);
-  res.status(500).send(err);
-}
+//   try {
+//     await food.save();
+//     res.json({ success: true, message: "Food Added" });
+//   } catch (err) {
+//     console.log(err);
+//     res.json({ success: false, message: "Error" });
+//   } 
+
+//    } catch (error) {
+//     console.error('❌ Upload failed:', error.message);
+//   }
+  
+// }catch(err){
+//   console.log(err);
+//   res.status(500).send(err);
+// }
 };
 
 // get food items
