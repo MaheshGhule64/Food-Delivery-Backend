@@ -45,5 +45,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
+    const uploadDir = process.env.RENDER ? "/tmp/uploads" : "uploads";
+  if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
   console.log(`Server is running on port ${port}`);
 });
