@@ -33,7 +33,7 @@ const addFood = async (req, res) => {
     if (!req.file) return res.status(400).send("No file uploaded.");
 
     const bucketName = 'food-delivery-food-images'; // replace with your bucket
-  const filePath = `C:\\Mahesh_patil\\Food_Delevery\\Frontend\\src\\assets\\frontend_assets\\${req.file.originalname}`;   // path to local file
+  const filePath = `https://food-delivery-backend-jnud.onrender.com/images/${req.file.originalname}`;   // path to local file
   const destination = `uploads/${req.file.originalname}`; // path in GCS
 
   try {
