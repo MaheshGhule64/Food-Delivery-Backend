@@ -6,6 +6,7 @@ const {Storage} = require('@google-cloud/storage')
 // add food item
 const addFood = async (req, res) => {
   // const image_filename = req.file.filename;
+  console.log(req.file.path);
 
   // const food = new foodModel({
   //   name: req.body.name,
