@@ -46,12 +46,6 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-const tempDir = path.join("/tmp", "uploads");
-if (!fs.existsSync(tempDir)) {
-  fs.mkdirSync(tempDir, { recursive: true });
-  console.log("✅ Temp folder created at", tempDir);
-}
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
