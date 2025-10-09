@@ -24,7 +24,7 @@ const addFood = async (req, res) => {
   //   res.json({ success: false, message: "Error" });
   // }
 
-  let keyFilename = "key.json";
+  let keyFilename = process.env.GOOGLE_API_KEY;
   const storage = new Storage({
     keyFilename
   });
