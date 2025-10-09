@@ -47,7 +47,7 @@ const addFood = async (req, res) => {
       res.status(500).json({ error: "Upload error" });
     });
 
-    blobStream.on("finish", () => {
+    blobStream.on("finish", async() => {
       const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
        const food = new foodModel({
     name: req.body.name,
