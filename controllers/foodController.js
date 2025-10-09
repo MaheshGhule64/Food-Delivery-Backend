@@ -25,10 +25,8 @@ const addFood = async (req, res) => {
   // }
 
   // const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
-  let projectId = "food-delivery-0909";
   let keyFilename = "key.json";
   const storage = new Storage({
-    projectId,
     keyFilename
   });
 
@@ -58,6 +56,13 @@ const addFood = async (req, res) => {
     category: req.body.category,
     image: publicUrl,
   }); 
+        try {
+    await food.save();
+    res.json({ success: true, message: "Food Added" });
+  } catch (err) {
+    console.log(err);
+    res.json({ success: false, message: "Error" });
+  } 
     });
 
     // Upload file buffer
@@ -95,13 +100,13 @@ const addFood = async (req, res) => {
   //   image: image_url,
   // }); 
   
-//   try {
-//     await food.save();
-//     res.json({ success: true, message: "Food Added" });
-//   } catch (err) {
-//     console.log(err);
-//     res.json({ success: false, message: "Error" });
-//   } 
+  // try {
+  //   await food.save();
+  //   res.json({ success: true, message: "Food Added" });
+  // } catch (err) {
+  //   console.log(err);
+  //   res.json({ success: false, message: "Error" });
+  // } 
 
 //    } catch (error) {
 //     console.error('❌ Upload failed:', error.message);
