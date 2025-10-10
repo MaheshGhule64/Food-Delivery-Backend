@@ -24,6 +24,8 @@ const addFood = async (req, res) => {
   //   res.json({ success: false, message: "Error" });
   // }
 
+  console.log("API key", process.env.GOOGLE_PRIVATE_KEY);
+
   const storage = new Storage({
     projectId: process.env.GOOGLE_PROJECT_ID,
   credentials: {
