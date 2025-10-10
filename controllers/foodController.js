@@ -24,11 +24,12 @@ const addFood = async (req, res) => {
   //   res.json({ success: false, message: "Error" });
   // }
 
-  const api_key = process.env.GOOGLE_API_KEY;
-  console.log(api_key);
-  let keyFilename = api_key;
   const storage = new Storage({
-    keyFilename
+    projectId: process.env.GOOGLE_PROJECT_ID,
+  credentials: {
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY
+  }
   });
 
 
