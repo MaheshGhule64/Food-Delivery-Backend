@@ -52,7 +52,7 @@ const addFood = async (req, res) => {
     });
 
     blobStream.on("finish", async() => {
-      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+      const publicUrl = `https://storage.cloud.google.com/${bucket.name}/${blob.name}`;
        const food = new foodModel({
     name: req.body.name,
     description: req.body.description,
