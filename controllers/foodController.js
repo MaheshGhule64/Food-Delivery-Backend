@@ -70,6 +70,7 @@ const removeFood = async (req, res) => {
     const filename = image.substring(startpos+1);   
 
     await bucket.file(filename).delete();
+    res.json({ success: true, message: "Food Removed" });
   } catch (error) {
     res.json({ success: false, message: "Error" });
   }
