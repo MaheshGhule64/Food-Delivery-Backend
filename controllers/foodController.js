@@ -1,39 +1,10 @@
 const foodModel = require("../models/foodModel.js");
 const fs = require("fs");
 const path = require("path");
-const {Storage} = require('@google-cloud/storage')
-
+const bucket = require('../config/cloud_bucket.js')
 
 // add food item
 const addFood = async (req, res) => {
-  // const image_filename = req.file.originalname;
-
-  // const food = new foodModel({
-  //   name: req.body.name,
-  //   description: req.body.description,
-  //   price: req.body.price,
-  //   category: req.body.category,
-  //   image: image_filename,
-  // });
-
-  // try {
-  //   await food.save();
-  //   res.json({ success: true, message: "Food Added" });
-  // } catch (err) {
-  //   console.log(err);
-  //   res.json({ success: false, message: "Error" });
-  // }
-
-  console.log("API key", process.env.GOOGLE_PRIVATE_KEY);
-
-  const storage = new Storage({
-    projectId: process.env.GOOGLE_PROJECT_ID,
-  credentials: {
-    client_email: process.env.GOOGLE_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-  }
-  });
-
 
    try {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
